@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Cookie Input </title>
+    <link rel="stylesheet" href="styles/main.css">
+
+    <script>
+        function setCookieInfo(cookie_name_prompt) {
+            const d = new Date();
+            d.setTime(d.getTime() + (30 * 24 * 60 * 60 * 100));
+            let expiration = d.toUTCString();
+            document.cookie = "Name=" + cookie_name_prompt + ";expires" + "=" + expiration + ";path=/";
+            return "Name=" + cookie_name_prompt + "; expires=" + expiration + "; path=/";
+        }
+
+        // Function to get a cookie by name
+        function getCookie(cname) {
+            let name = cname + "=";
+            let decodedCookie = decodeURIComponent(document.cookie);
+            let ca = decodedCookie.split(';');
+            for(let i = 0; i <ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) === 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        function displayCookie(){
+            let x = getCookie("Name");
+
+            if (x !== "") {
+                // Set a new cookie if not found
+                const displayElement = document.getElementById("CookieDisplay");
+                displayElement.innerText = `Your Cookie: ${setCookieInfo(x)}`;
+            } else {
+                let cookie_name_prompt = prompt("Enter your name: ", "John Smith");
+                if(cookie_name_prompt !== "" && cookie_name_prompt != null){
+                    setCookieInfo(cookie_name_prompt);
+                    location.reload();
+                }
+            }
+        }
+
+        window.onload = function () {
+            displayCookie();
+        };
+
+    </script>
+</head>
+<body>
+    <div id = "Main-Content">
+        <h1> Javascript Cookie Prompt </h1>
+        <h2 id = "CookieDisplay"> Your Cookie will be displayed here </h2>
+    </div>
+
+    <footer>
+        <p> &copy; Nathaniel Lewis Arevalo Macasaet, 2024</p>
+    </footer>
+</body>
+</html>
